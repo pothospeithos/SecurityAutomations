@@ -80,24 +80,23 @@ def news():
         return
 
 
-# GETS ALL 30 AS A RESPONSE
-# POINT IS TO ONLY DISPLAY A CERTAIN AMOUNT TO USER
+# Return up to 30 of the latest CVEs based on user's input
 def cve_30(num):
-    # PUT IN OUTER SCOPE SO REQUESTS ONLY RUN 1
+    # GET request to CVE website API
+    # Initialize list based on user's input
     content = requests.get("https://cve.circl.lu/api/last")
     json_elements = content.json()
     cve_list = list(json_elements[0:num])
 
-    # if num > 30:
-    # Shallow copy for referencing
-    # cve_list = json_elements[0:num]
-
+    # Format input and print to terminal
     for item in cve_list:
         print("{} {}".format("Vuln Num:", item['id']))
         print("{} {}\n".format("Desc:", item['summary']))
 
 
+# Return information about one of OWASP Top 10 vulnerabilities.
 def owasp_10():
+    # OWASP Top 10 links
     websites = {
         "Broken Access Control": "https://owasp.org/Top10/A01_2021-Broken_Access_Control/",
         "Cryptographic Failures": "https://owasp.org/Top10/A02_2021-Cryptographic_Failures/",
@@ -113,10 +112,12 @@ def owasp_10():
         "Server-Side Request Forgery": "https://owasp.org/Top10/A10_2021-Server-Side_Request_Forgery_%28SSRF%29/",
     }
 
+    # Print title of OWASP Top 10
     print('OWASP Top 10')
     for k in websites.keys():
         print(k)
 
+    # Open link to OWASP Top 10 information
     link_click = False
     while not link_click:
         user_click = str(input("Type the security risk you would like to read more on.\n"))
@@ -125,12 +126,8 @@ def owasp_10():
 
 
 if __name__ == '__main__':
-
-    # parser = argparse.ArgumentParser(description='InfoBoard')
-    # parser.add_argument('-func', dest='func', required = True, type = str, help='Function you want to execute.')
-    # args = parser.parse_args()
-
-    print('Hello! Here are your options to select:\n- news: See latest cybersecurity news.\n- cve30: See up to 30 of the last.'
+    print('Hello! Here are your options to select:\n- news: See latest cybersecurity news.\n'
+          '- cve30: See up to 30 of the last.'
           'CVEs\n- owasp10: Links to OWASP Top 10 risks.')
 
     while True:
